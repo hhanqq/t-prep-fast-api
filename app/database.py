@@ -50,4 +50,3 @@ class UserModel(Base):
     @password.setter
     def password(self, value):
         self._password = get_context.hash(value)
-    
