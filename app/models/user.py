@@ -19,11 +19,11 @@ class QuestionModel(Base):
     __tablename__ = 'Question'
     
     # group_id: Mapped[int] = mapped_column(ForeignKey('Question_group.id'))
-    qstn: Mapped[str]
-    r_answr: Mapped[str]
-    wr_answr1: Mapped[str]
-    wr_answr2: Mapped[str]
-    wr_answr3: Mapped[str]
+    qstn: Mapped[str] = mapped_column(nullable=False)
+    correct_answer: Mapped[str]
+    wr_answer1: Mapped[str]
+    wr_answer2: Mapped[str]
+    wr_answer3: Mapped[str]
     
     # group = relationship('QGroupModel', back_populates='questions')
     
