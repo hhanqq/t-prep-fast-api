@@ -1,7 +1,7 @@
 from fastapi import FastAPI, UploadFile
 from fastapi.responses import FileResponse
 from starlette.formparsers import MultiPartParser
-import tempfile, shutil, os
+import tempfile, shutil, os, pypandoc
 
 from reader.parser import parse
 
@@ -21,7 +21,36 @@ async def say_hello(name: str):
 @app.post("/upload")
 async def endpoint(uploaded_file: UploadFile):
     print("File: ", uploaded_file.file)
+    print("File name: ", uploaded_file.filename)
+    #print("File path: ", uploaded_file.)         
     print("In memory? ",uploaded_file._in_memory)
+
+
+    if uploaded_file.filename[-4:] == ".txt":
+        print("File extension chosen: txt")
+
+    elif uploaded_file.filename[-5:] == ".docx":   #TODO
+        print("File extension chosen: docx")
+        name = uploaded_file.filename[:-5]
+        uploaded_file = pypandoc.convert_file(uploaded_file.filename, 'plain', outputfile=f"{name}.txt")
+
+    elif uploaded_file.filename[-4:] == ".doc":    #TODO
+        print("File extension chosen: doc")
+        name = uploaded_file.filename[:-4]
+        uploaded_file = pypandoc.convert_file(uploaded_file.filename, 'plain', outputfile=f"{name}.txt")
+
+    elif uploaded_file.filename[-3:] == ".md":    #TODO вот это тоже подвязать если готово будет
+        print("File extension chosen: markdown // NOT REALIZED")
+
+    else:
+        print("NOT SUPPPORTED!")
+
+    print("\n//// After if field ////")
+    print("File: ", uploaded_file.file)
+    print("In memory? ", uploaded_file._in_memory)
+    print("File name: ", uploaded_file.filename)
+
+    print("\nTemp file:")
 
     with tempfile.NamedTemporaryFile(mode='wb', prefix = 'temp_', suffix='.txt', delete = False, dir = './tmp') as temp_file:
         print("Created file is:", temp_file)

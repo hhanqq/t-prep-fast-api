@@ -8,8 +8,6 @@ def parse(file_path):
             print("||Opened!\n")
             prev_line: str = "empty"
 
-            card_index: int = 1
-
             for line in file:
                 stripped_line = line.strip()  # Убираем пробелы в начале и конце строки
                 if stripped_line:  # Проверяем, что строка не пустая
@@ -19,10 +17,8 @@ def parse(file_path):
                         answer:str = stripped_line.lower().replace("ответ", "")
                         answer:str = answer.strip(" :.")
 
-                        card = {'index': card_index, 'question': question, 'answer': answer}
+                        card = {"question": question, "answers": answer, "tags": "tagstagstags"}
                         card_list.append(card)
-
-                        card_index = card_index + 1
 
                 prev_line = stripped_line
 
