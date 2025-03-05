@@ -35,17 +35,14 @@ def parse(file_path):
     print("!!File_path closed\n")
     # print("Card_list: ", card_list)
 
-    with tempfile.NamedTemporaryFile(mode='wb', prefix = 'dumped_', suffix='.json', delete = False, dir = './json_cards') as json_file:
+    with tempfile.NamedTemporaryFile(mode='w', prefix = 'dumped_', suffix='.json', delete = False, dir = './json_cards', encoding='utf8') as json_file:
+        print("CREATED TEMP_JSON")
         json.dump(card_list, json_file, ensure_ascii=False, indent=4)
         print("Jsdon dumped!\n")
 
     print("JSON_FILE.NAME = ", json_file.name)
 
     return json_file.name
-    # with open("cards_dumped.json", "w", encoding='utf-8') as write:
-    #     json.dump(card_list, write, ensure_ascii=False, indent=4)
-    #
-    #     #сделать джсон создаваемым
 
 
 

@@ -32,6 +32,6 @@ async def endpoint(uploaded_file: UploadFile):
 
     json_path = parse(temp_file.name)
     print("Parsed")
-    os.remove(temp_file.name)
+    #os.remove(temp_file.name)
 
     return FileResponse(path=json_path, filename='json.json', media_type='application/octet-stream')
