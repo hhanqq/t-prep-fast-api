@@ -1,12 +1,11 @@
-import json
+import json, tempfile
 
 def parse(file_path):
-    print(f"File_path: {file_path}")
     card_list = []
 
     try:
         with open(file_path, 'r', encoding='utf-8') as file:
-            print("||Opened!")
+            print("||Opened!\n")
             prev_line: str = "empty"
 
             card_index: int = 1
@@ -33,15 +32,20 @@ def parse(file_path):
     except Exception as e:
         print(f"Произошла ошибка: {e}")
 
-    print("File_path closed")
-    print("Card_list: ", card_list)
+    print("!!File_path closed\n")
+    # print("Card_list: ", card_list)
 
-    with open("cards_dumped.json", "w", encoding='utf-8') as write:
-        json.dump(card_list, write, ensure_ascii=False, indent=4)
+    with tempfile.NamedTemporaryFile(mode='wb', prefix = 'dumped_', suffix='.json', delete = False, dir = './json_cards') as json_file:
+        json.dump(card_list, json_file, ensure_ascii=False, indent=4)
+        print("Jsdon dumped!\n")
 
+    print("JSON_FILE.NAME = ", json_file.name)
 
-
-        #сделать джсон создаваемым
+    return json_file.name
+    # with open("cards_dumped.json", "w", encoding='utf-8') as write:
+    #     json.dump(card_list, write, ensure_ascii=False, indent=4)
+    #
+    #     #сделать джсон создаваемым
 
 
 

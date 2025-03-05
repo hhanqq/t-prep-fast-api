@@ -1,15 +1,13 @@
-from fastapi import FastAPI, UploadFile, File
+from fastapi import FastAPI, UploadFile
 from fastapi.responses import FileResponse
-from pathlib import Path
 from starlette.formparsers import MultiPartParser
 import tempfile, shutil, os
 
 from reader.parser import parse
 
-MultiPartParser.max_part_size = 10 * 1024*1024 #10 мб максимум для хранения в памяти
+MultiPartParser.max_part_size = 100 * 1024*1024 #10 мб максимум для хранения в памяти
 
 app = FastAPI()
-
 
 @app.get("/")
 async def root():
@@ -32,11 +30,8 @@ async def endpoint(uploaded_file: UploadFile):
         shutil.copyfileobj(uploaded_file.file, temp_file)
         print("Copied")
 
-        tmp_path = Path(temp_file.name)
-        print("Path: " ,tmp_path)
-
-    parse(temp_file.name)
+    json_path = parse(temp_file.name)
     print("Parsed")
     os.remove(temp_file.name)
 
-    return FileResponse(path='./cards_dumped.json', filename='json.json', media_type='application/octet-stream')
+    return FileResponse(path=json_path, filename='json.json', media_type='application/octet-stream')
