@@ -1,13 +1,17 @@
 from fastapi import FastAPI
+from app.database import engine, Base
+from app.routers import auth, test  # Если есть маршруты, добавляем
 
-app = FastAPI()
+app = FastAPI(title="Auth API")
+
+# Создаем таблицы в БД (если их нет)
+Base.metadata.create_all(bind=engine)
+
+# Подключаем маршруты
+app.include_router(auth.router, prefix="/auth", tags=["auth"])
+app.include_router(test.router)
 
 
 @app.get("/")
-async def root():
-    return {"message": "Hello World"}
-
-
-@app.get("/hello/{name}")
-async def say_hello(name: str):
-    return {"message": f"Hello {name}"}
+def root():
+    return {"message": "API is running"}
