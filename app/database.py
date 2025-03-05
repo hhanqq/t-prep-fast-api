@@ -1,5 +1,5 @@
 from sqlalchemy.ext.asyncio import create_async_engine, async_sessionmaker, AsyncAttrs
-from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, relationship, declared_attr
+from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, declared_attr
 
 
 DB_HOST = 'localhost'
@@ -22,7 +22,7 @@ class Base(DeclarativeBase, AsyncAttrs):
     def __tablename__(cls) -> str:
         return f"{cls.__name__.lower()}s"
     
-    id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True, unique=True, nullable=False)
+    id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True, unique=True, nullable=False, default=1)
     
     
 # alembic revision --autogenerate -m "Initial revision"
