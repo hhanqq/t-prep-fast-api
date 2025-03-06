@@ -1,8 +1,21 @@
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
+
 import uvicorn
 from routers import auth
 
 app = FastAPI(title="Auth API")
+PORT = 8080
+
+origins = [f"http://localhost:{PORT}"]  # Домен вашего фронтенда
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 # Подключаем маршрут авторизации
 app.include_router(auth.router, prefix="/auth", tags=["auth"])
