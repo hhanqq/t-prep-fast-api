@@ -8,6 +8,8 @@ from database import Base
 class User(Base):
     __tablename__ = 'User'
     
+    
+    id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True, unique=True, nullable=False)
     username: Mapped[str] = mapped_column(unique=True, nullable=True)
     email: Mapped[str] = mapped_column(unique=True, nullable=False)
     hashed_password: Mapped[str] = mapped_column(nullable=False)# Хранит хэшированный пароль
